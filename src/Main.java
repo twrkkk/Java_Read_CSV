@@ -28,7 +28,12 @@ public class Main {
     public static void main(String[] args) {
         Main main = new Main();
         File file = main.readFile("foreign_names.csv");
-        readDataFromCustomSeparator(file);
+
+        List<Person> persons = readPersonsFromCSV(file);
+
+        for (Person person : persons) {
+            System.out.println(person);
+        }
     }
 
     /**
@@ -36,7 +41,8 @@ public class Main {
      *
      * @param file the CSV file to be read
      */
-    public static void readDataFromCustomSeparator(File file) {
+    public static List<Person> readPersonsFromCSV(File file) {
+        List<Person> persons = new ArrayList<>();
         try {
             FileReader filereader = new FileReader(file);
 
@@ -48,7 +54,6 @@ public class Main {
 
             // Read all data at once
             List<String[]> allData = csvReader.readAll();
-            List<Person> persons = new ArrayList<>();
 
             int id;
             String name;
@@ -71,11 +76,10 @@ public class Main {
                 persons.add(new Person(id, name, gender, dep, salary, DOB));
             }
 
-            for (Person person : persons) {
-                System.out.println(person);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return persons;
     }
 }
